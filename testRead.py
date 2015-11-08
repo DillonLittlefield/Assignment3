@@ -67,20 +67,20 @@ def readKenKen():
     c2 = re.findall('[[]\w+,\W+,\w+,\w+[]]',l)
     c3 = re.findall('[[]\w+,\W+,\w+,\w+,\w+[]]',l)
     cs = c1+c2+c3
-    print('cs ',cs)
-    print("This is c1")
-    print(c1)
-    print("This is c2")
-    print(c2)
-    print("This is c3")
-    print(c3)
+    #print('cs ',cs)
+    #print("This is c1")
+    #print(c1)
+    #print("This is c2")
+    #print(c2)
+    #print("This is c3")
+    #print(c3)
     # for each of the constraints
     def customCopy(nestedList):
         returnList = []
         for i in nestedList:
             returnList.append(i[:])
-        print('returnList', returnList)
-        print('returnList[0]', returnList[0])
+        #print('returnList', returnList)
+        #print('returnList[0]', returnList[0])
 
         return returnList
     returnCS = customCopy(cs)
@@ -91,22 +91,22 @@ def readKenKen():
         copy=re.split(',',copy)
         copyList.append(copy)
         print('copy', copy)
-    print('copy[0]', copy[1])
+    #print('copy[0]', copy[1])
     print('copyList', copyList)
-    print('copyList[0][2]', copyList[4][1])
+    print('copyList[4][1]', copyList[4][1])
 
     for c in cs:
         # remove white space and brackets, then split constraint into answer,op,var
         c=re.sub('[[\] ]','',c)
         c=re.split(',',c)
         #print('csfsd ',str(c))
-        print('c ',c)
+        #print('c ',c)
         # makeVars if not already in existence
         for v in c[2:len(c)]:
             #print('v ',v)
             if v not in vars:
                 vars[v] = MakeVar(v)
-    print('c[0]', c[0])
+    #print('c[0]', c[0])
 
 
 
@@ -127,16 +127,16 @@ def readKenKen():
     if ( testLine == 0 ):
         # 2 var constraint
         c = Cons[0]
-        print(c.vlist)
+        #print(c.vlist)
         v1, v2 = vars[c.vlist[0]], vars[c.vlist[1]]
-        print(v1.name,'=',v1.domain[3],' ',v2.name,'=',v2.domain[0])
-        print('op ', c.fn(v1.domain[3],v2.domain[0]))
+        #print(v1.name,'=',v1.domain[3],' ',v2.name,'=',v2.domain[0])
+        #print('op ', c.fn(v1.domain[3],v2.domain[0]))
 
         # 3 var constraint
         c = Cons[5]
         v1, v2, v3 = vars[c.vlist[0]], vars[c.vlist[1]], vars[c.vlist[2]]
-        print(v1.name,' ',v2.name,' ',v3.name)
-        print('op ', c.fn(v1.domain[0],v2.domain[3],v3.domain[1]))
+        #print(v1.name,' ',v2.name,' ',v3.name)
+        #print('op ', c.fn(v1.domain[0],v2.domain[3],v3.domain[1]))
     return copyList
 
 def readCrypt():
