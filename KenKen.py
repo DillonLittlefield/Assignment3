@@ -109,6 +109,7 @@ def Revise( bc, variables ):
     dom1 = list(bc.var1.domain)
     dom2 = list(bc.var2.domain)
 
+
     for x in dom1:
         shouldKeep = False
         for y in dom2:
@@ -116,6 +117,28 @@ def Revise( bc, variables ):
                 shouldKeep = True
         if (shouldKeep == False):
             bc.var1.domain.remove(x)
+            #print("REMOVING: " + str(x))
+            #printDomains(variables)
+
+
+def ReviseTC( tc, variables ):
+	# The Revise() function from AC-3, which removes elements from var1 domain, if not arc consistent
+	# A single BinaryConstraint instance is passed in to this function.
+	# MISSSING the part about returning sat to determine if constraints need to be added to the queue
+
+    # copy domains for use with iteration (they might change inside the for loops)
+    dom1 = list(tc.var1.domain)
+    dom2 = list(tc.var2.domain)
+    dom3 = list(tc.var3.domain)
+
+    for x in dom1:
+        shouldKeep = False
+        for y in dom2:
+            for z in dom3:
+                if(tc.func(x,y,z) == True):
+                    shouldKeep = True
+            if (shouldKeep == False):
+                tc.var1.domain.remove(x)
             #print("REMOVING: " + str(x))
             #printDomains(variables)
 
@@ -193,4 +216,4 @@ def tryAC3():
 print("DOING KENKEN")
 tryAC3()
 print("DOING SPORTS LOGIC PUZZLE")
-trySports()
+
