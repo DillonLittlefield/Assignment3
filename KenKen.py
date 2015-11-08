@@ -1,11 +1,6 @@
 import functools
 from functools import reduce
 
-# GROUP
-# Trey Leuenberger
-# Nikita Yurkov
-# Colin Heim
-# Dillon Littlefield
 
 # This is demonstrating a "class" implementation of AC3. You can accomplish the same with lists. For the project, you can choose either.
 
@@ -40,6 +35,13 @@ class BinaryConstraint:
     def __init__(self, v1, v2, fn):
         self.var1 = v1
         self.var2 = v2
+        self.func = fn
+
+class TernaryConstraint:
+    def __init__(self, v1, v2, v3, fn):
+        self.var1 = v1
+        self.var2 = v2
+        self.var3 = v3
         self.func = fn
 
 
@@ -94,17 +96,6 @@ def setUpKenKen( variables, constraints ):
                 aCol.append( variables[k] )
         allDiff( constraints, aCol )
 
-def setUpSports( variables, constraints):
-    people = ["Alex", "Jessica", "Ryan", "Sophie"]
-    sports = ["Baseball", "Tennis", "Basketball", "Soccer"]
-    for person in people:
-        variables[person] = ConstraintVar([x for x in sports], person)
-
-    for person in people:
-        peopleRow = []
-        for key in variables.keys():
-            peopleRow.append(variables[key])
-        allDiff(constraints, peopleRow)
 
 #--------------------------------------------------------------------------------------------
 #########################            COMPLETE REVISE               ##########################
@@ -129,11 +120,6 @@ def Revise( bc, variables ):
             #printDomains(variables)
 
 
-
-#>>>>>
-        # if nothing in domain of variable2 satisfies the constraint when variable1==x, remove x
-#>>>>>
-
 def nodeConsistent( uc ):
     domain = list(uc.var.domain)
     for x in domain:
@@ -147,41 +133,6 @@ def printDomains( vars, n=3 ):
         count = count+1
         if ( 0 == count % n ):
             print(' ')
-
-def trySports():
-    variables = dict()
-    constraints = []
-    setUpSports(variables, constraints)
-
-    print("initial domains\n")
-    printDomains(variables)
-
-    print("unary constraint Alex\n")
-    nodeConsistent(UnaryConstraint(variables['Alex'], lambda x: x != "Soccer"))
-    printDomains(variables)
-
-    print("unary constraint Jessica\n")
-    nodeConsistent(UnaryConstraint(variables['Jessica'], lambda x: x != "Soccer" and x != "Basketball"))
-    printDomains(variables)
-
-    print("unary constraint Ryan\n")
-    nodeConsistent(UnaryConstraint(variables['Ryan'], lambda x: x != "Basketball" and x != "Baseball" and x != "Soccer"))
-    printDomains(variables)
-
-    for c in constraints:
-        Revise( c , variables)
-    print("all constraints pass 1\n")
-    printDomains( variables )
-
-    for c in constraints:
-        Revise( c, variables )
-    print("all constraints pass 2 \n")
-    printDomains( variables )
-
-    for c in constraints:
-        Revise( c, variables )
-    print("all constraints pass 3 \n")
-    printDomains( variables )
 
 def tryAC3():
     # create a dictionary of ConstraintVars keyed by names in VarNames.
