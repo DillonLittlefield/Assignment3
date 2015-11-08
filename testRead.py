@@ -57,7 +57,7 @@ def readKenKen(puzzleNumber):
 
     # size of puzzle is first number on the line
     n = eval(re.findall('^\d+',l)[0])
-    print('size ',n)
+    #print('size ',n)
 
     # create a list of constraints (as strings).
     # order is [answer,operator,var+], which can have 1,2, or 3 vars
@@ -90,10 +90,10 @@ def readKenKen(puzzleNumber):
         copy=re.sub('[[\] ]','',copy)
         copy=re.split(',',copy)
         copyList.append(copy)
-        print('copy', copy)
+        #print('copy', copy)
     #print('copy[0]', copy[1])
-    print('copyList', copyList)
-    print('copyList[4][1]', copyList[4][1])
+    #print('copyList', copyList)
+    #print('copyList[4][1]', copyList[4][1])
 
     for c in cs:
         # remove white space and brackets, then split constraint into answer,op,var

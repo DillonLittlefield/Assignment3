@@ -55,7 +55,7 @@ def allDiff( constraints, v ):
             if ( i != j ) :
                 constraints.append(BinaryConstraint( v[i],v[j],fn ))
 
-def setUpKenKen( variables, constraints ):
+def setUpKenKen( variables, constraints, size ):
     # This setup is applicable to KenKen and Sudoku. For this example, it is a 3x3 board with each domain initialized to {1,2,3}
     # The VarNames list can then be used as an index or key into the dictionary, ex. variables['A1'] will return the ConstraintVar object
 
@@ -66,11 +66,17 @@ def setUpKenKen( variables, constraints ):
     # constraints.append( BinaryConstraint( A2, A1, lambda x,y: x != y ) ) ...
     #   but you can see how tedious this would be.
 
-    rows = ['A','B','C']
-    cols = ['1','2','3']
+    rows = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
+            'N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+    cols = ['1','2','3','4','5','6','7','8','9','10','11','12','13',
+            '14','15','16','17','18','19','20','21','22','23','24','25','26']
+
+    rows = rows[0:size]
+    cols = cols[0:size]
+
     varNames = [ x+y for x in rows for y in cols ]
     for var in varNames:
-        variables[var] = ConstraintVar( [1,2,3],var )
+        variables[var] = ConstraintVar( [x for x in range(1,size+1)],var )
 
     # establish the allDiff constraint for each column and each row
     # for AC3, all constraints would be added to the queue
@@ -126,27 +132,57 @@ def nodeConsistent( uc ):
         if ( False == uc.func(x) ):
             uc.var.domain.remove(x)
 
-def printDomains( vars, n=3 ):
+def printDomains( vars, size ):
     count = 0
     for k in sorted(vars.keys()):
         print( k,'{',vars[k].domain,'}, ',end="" )
         count = count+1
-        if ( 0 == count % n ):
+        if ( 0 == count % size ):
             print(' ')
 
 def AC3(listNumber):
 
     data = readKenKen(listNumber)
     print(data)
-    '''
+
+    
     # create a dictionary of ConstraintVars keyed by names in VarNames.
     variables = dict()
     constraints = []
-    setUpKenKen( variables, constraints)
+    size = int(data[0][0])
+    setUpKenKen( variables, constraints, size)
 
     print("initial domains \n")
-    printDomains( variables )
+    printDomains( variables,size )
 
+    for i in data[1:]:
+        if(len(i) == 4):
+            pr = i[0]
+            op = i[1]
+            v1 = i[2]
+            v2 = i[3]
+            if op == '+':
+                constraints.append(BinaryConstraint(variables[v1], variables[v2], lambda x,y: x+y == int(pr)))
+                constraints.append(BinaryConstraint(variables[v2], variables[v1], lambda x,y: x+y == int(pr)))
+            elif op == '-':
+                constraints.append(BinaryConstraint(variables[v1], variables[v2], lambda x,y: abs(x-y) == int(pr)))
+                constraints.append(BinaryConstraint(variables[v2], variables[v1], lambda x,y: abs(x-y) == int(pr)))
+            elif op == '/':
+                constraints.append(BinaryConstraint(variables[v1], variables[v2], lambda x,y: x/y == int(pr) or y/x == int(pr)))
+                constraints.append(BinaryConstraint(variables[v2], variables[v1], lambda x,y: x/y == int(pr) or y/x == int(pr)))
+            elif op == '*':
+                constraints.append(BinaryConstraint(variables[v1], variables[v2], lambda x,y: x*y == int(pr)))
+                constraints.append(BinaryConstraint(variables[v2], variables[v1], lambda x,y: x*y == int(pr)))
+
+    for c in constraints:
+        Revise(c, variables)
+    print("After revision")
+    printDomains(variables,size)
+                
+
+
+
+    '''
     nodeConsistent( UnaryConstraint( variables['A3'], lambda x: x==2 ) )
     print("unary constraint A3\n")
     printDomains( variables )
@@ -180,5 +216,7 @@ def AC3(listNumber):
 
 if __name__ == "__main__":
     AC3(0)
+    '''
     AC3(1)
     AC3(2)
+    '''
