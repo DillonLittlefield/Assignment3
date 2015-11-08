@@ -34,8 +34,8 @@ if __name__ == '__main__':
     variables = testRead.readKenKen()
     constraintList = []
     sickList = []
-    print('dslkfasf', variables)
-    print('variables[0[][0]', variables[0][2])
+    #print('dslkfasf', variables)
+    #print('variables[0[][0]', variables[0][2])
 #    for i in range(0,len(variables)):
  #       constraintList.append(variables[i])
 
