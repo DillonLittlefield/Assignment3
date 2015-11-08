@@ -77,6 +77,7 @@ def readKenKen():
     # for each of the constraints
     def customCopy(nestedList):
         returnList = []
+        returnList.append(str(n))
         for i in nestedList:
             returnList.append(i[:])
         #print('returnList', returnList)
