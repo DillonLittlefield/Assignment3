@@ -37,7 +37,7 @@ class Constraint:
         else:
             print('num vars not right')
 
-def readKenKen():
+def readKenKen(puzzleNumber):
 
     # read in the file with constraints for KenKen puzzles (1 line per puzzle)
     lines = open('testKenKen.txt').readlines()
@@ -50,9 +50,9 @@ def readKenKen():
     # check that input is good (testing only the first line). remove all white space first
     r = re.compile('\d+([[]\w+,\W+(,\w+)+[]],*)*')
 
-    testLine = 2 # test this line in file
+    testLine = puzzleNumber # test this line in file
     l = lines[testLine]
-    l=re.sub('[ ]','',l)
+    l = re.sub('[ ]','',l)
     if not r.match(l): return
 
     # size of puzzle is first number on the line
@@ -81,7 +81,6 @@ def readKenKen():
             returnList.append(i[:])
         #print('returnList', returnList)
         #print('returnList[0]', returnList[0])
-
         return returnList
     returnCS = customCopy(cs)
 
@@ -110,33 +109,6 @@ def readKenKen():
 
 
 
-    #additional processing
-    for v in range(1,len(c)):
-        c[v] = str(c[v])
-
-        op = c[1]
-        answer = c[0]
-
-        # make a constraint
-        Cons.append(Constraint( c[2:len(c)], op, answer ))
-
-    #for k in vars:
-    #    print(k)
-
-    #test the results for line 0
-    if ( testLine == 0 ):
-        # 2 var constraint
-        c = Cons[0]
-        #print(c.vlist)
-        v1, v2 = vars[c.vlist[0]], vars[c.vlist[1]]
-        #print(v1.name,'=',v1.domain[3],' ',v2.name,'=',v2.domain[0])
-        #print('op ', c.fn(v1.domain[3],v2.domain[0]))
-
-        # 3 var constraint
-        c = Cons[5]
-        v1, v2, v3 = vars[c.vlist[0]], vars[c.vlist[1]], vars[c.vlist[2]]
-        #print(v1.name,' ',v2.name,' ',v3.name)
-        #print('op ', c.fn(v1.domain[0],v2.domain[3],v3.domain[1]))
     return copyList
 
 def readCrypt():
