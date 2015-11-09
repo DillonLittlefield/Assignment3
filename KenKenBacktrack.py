@@ -8,8 +8,7 @@ alphabetVals = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J','K','L','M','N'
 
 def makeRows(n):
     rows = []
-
-    for i in range(1,n+1):
+    for i in range(0,n):
         rows.append(alphabetVals[i])
     return rows
 
@@ -25,15 +24,18 @@ def makeVars(boardSize):
     currRows = makeRows(boardSize)
     currCols = makeCols(boardSize)
     varNames = [ x+y for x in currRows for y in currCols ]
-    #for var in varNames:
-        #print(var)
+    for var in varNames:
+        print(var)
 
 #print(randomBoard(6))
-#print(makeVars(6))
+
 if __name__ == '__main__':
     variables = testRead.readKenKen()
     constraintList = []
     sickList = []
+    print(makeVars(6))
+
+
     #print('dslkfasf', variables)
     #print('variables[0[][0]', variables[0][2])
 #    for i in range(0,len(variables)):
