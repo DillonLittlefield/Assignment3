@@ -76,6 +76,7 @@ def setUpKenKen( variables, constraints, size ):
 
     varNames = [ x+y for x in rows for y in cols ]
     for var in varNames:
+        tempNum = ConstraintVar([x for x in range(1, size+1)], var)
         variables[var] = ConstraintVar( [x for x in range(1,size+1)],var )
 
     # establish the allDiff constraint for each column and each row
@@ -119,6 +120,7 @@ def Revise( bc, variables ):
     for x in dom1:
         shouldKeep = False
         for y in dom2:
+            bcFunc = bc.func(x,y)
             if(bc.func(x,y) == True):
                 shouldKeep = True
         if (shouldKeep == False):
@@ -187,7 +189,7 @@ def AC3(listNumber):
             if op == '+':
                 constraints.append(BinaryConstraint(variables[v1], variables[v2], lambda x,y: x+y == int(pr)))
                 constraints.append(BinaryConstraint(variables[v2], variables[v1], lambda x,y: x+y == int(pr)))
-            elif op == '-':
+            if op == '-':
                 constraints.append(BinaryConstraint(variables[v1], variables[v2], lambda x,y: abs(x-y) == int(pr)))
                 constraints.append(BinaryConstraint(variables[v2], variables[v1], lambda x,y: abs(x-y) == int(pr)))
             elif op == '/':
@@ -196,12 +198,15 @@ def AC3(listNumber):
             elif op == '*':
                 constraints.append(BinaryConstraint(variables[v1], variables[v2], lambda x,y: x*y == int(pr)))
                 constraints.append(BinaryConstraint(variables[v2], variables[v1], lambda x,y: x*y == int(pr)))
-
+    #loopCount = 0
+    #while loopCount < 3:
     for c in constraints:
         Revise(c, variables)
+        #loopCount+=1
     print("After revision")
     printDomains(variables,size)
-                
+
+
 
 
 
@@ -236,12 +241,7 @@ def AC3(listNumber):
     printDomains( variables )
     '''
 
-<<<<<<< HEAD
-print("DOING KENKEN")
-tryAC3()
-print("DOING SPORTS LOGIC PUZZLE")
 
-=======
 
 if __name__ == "__main__":
     AC3(0)
@@ -249,4 +249,4 @@ if __name__ == "__main__":
     AC3(1)
     AC3(2)
     '''
->>>>>>> origin/master
+
